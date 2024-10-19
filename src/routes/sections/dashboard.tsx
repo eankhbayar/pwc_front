@@ -88,6 +88,7 @@ export const dashboardRoutes = [
       { path: 'booking', element: <OverviewBookingPage /> },
       { path: 'file', element: <OverviewFilePage /> },
       { path: 'course', element: <OverviewCoursePage /> },
+      { path: 'examination', element: <OverviewCoursePage /> },
       {
         path: 'user',
         children: [
