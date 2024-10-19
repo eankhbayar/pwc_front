@@ -55,7 +55,7 @@ export function AboutHero({ sx, ...other }: BoxProps) {
               sx={{ mt: 3, color: 'common.white', fontWeight: 'fontWeightSemiBold' }}
             >
               Let&apos;s work together and
-              <br /> make awesome site easily
+              <br /> make awesome site easily, fast and beautiful.
             </Typography>
           </m.div>
         </Box>
