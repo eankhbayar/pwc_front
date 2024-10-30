@@ -27,6 +27,10 @@ import Sidebar from './Sidebar'
 import Content from './Content'
 
 import ExamTakeView from './exam-take-view';
+import MyCourse from './my-course-view';
+import StudentProfile from './student-profile-view'
+import ExamOverview from './exams-overview'
+import Appeal from './appeal-view'
 // ----------------------------------------------------------------------
 
 export function ChatView() {
@@ -76,7 +80,11 @@ export function ChatView() {
       maxWidth={false}
       sx={{ display: 'flex', flex: '1 1 auto', flexDirection: 'column' }}
     >
-      <ExamTakeView/>
+      <Appeal />
+      {/* <ExamOverview /> */}
+      {/* <StudentProfile /> */}
+      {/* <MyCourse /> */}
+      {/* <ExamTakeView/> */}
       {/* <Box m={4}>
         <Typography variant="h6">
           Dashboard
