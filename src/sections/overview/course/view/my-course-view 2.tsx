@@ -47,18 +47,12 @@ const MyCourse : React.FC = () => {
                     {courses.map((course) => (
                         <Grid item key={course.cid} xs={12} sm={6} md={4}>
                             <Card style={{ height: '100%', display: 'flex' }}>
-                            <Button
-                                component={Link}
-                                to={`/dashboard/course/${course.name}`} // Link to the exam page
-                                variant="contained" style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
+                                <Button onClick={() => {router.push(paths.dashboard.general.course_subject(course.cid))}}>
                                     <CardContent style={{flex: 1}}>
                                         <Typography variant="h6" gutterBottom textAlign='left'>{course.name}</Typography>
                                         <Typography variant="body2" textAlign='left'>{course.availability} | Instructor: {course.instructor}</Typography>
                                     </CardContent>
-                            </Button>
-                                {/* <Button onClick={() => {router.push(paths.dashboard.general.course_subject(course.cid))}}>
-                                    
-                                </Button> */}
+                                </Button>
                             </Card>
                         </Grid>
                     ))}

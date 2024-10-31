@@ -17,7 +17,9 @@ const IndexPage = lazy(() => import('src/pages/dashboard'));
 const OverviewStudentProfile = lazy(() => import('src/pages/dashboard/studentprofile'));
 const OverviewExamOverview = lazy(() => import('src/pages/dashboard/exams'));
 const OverviewCoursePage = lazy(() => import('src/pages/dashboard/course'));
+
 const CourseDetails = lazy(() => import('src/sections/overview/course/view/detail'));
+
 const OverviewAppealPage = lazy(() => import('src/pages/dashboard/appeal'));
 const OverviewEcommercePage = lazy(() => import('src/pages/dashboard/ecommerce'));
 const OverviewAnalyticsPage = lazy(() => import('src/pages/dashboard/analytics'));

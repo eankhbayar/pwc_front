@@ -105,7 +105,7 @@ export const paths = {
       profile: `${ROOTS.DASHBOARD}/studentprofile`,
       exam: `${ROOTS.DASHBOARD}/exams`,
       course: `${ROOTS.DASHBOARD}/course`,
-      course_subject: (cid: number) => `${ROOTS.DASHBOARD}/course/${cid}`,
+      course_subject: (name: string) => `${ROOTS.DASHBOARD}/course/${name}`,
       appeal: `${ROOTS.DASHBOARD}/appeal`,
       app: `${ROOTS.DASHBOARD}/app`,
       ecommerce: `${ROOTS.DASHBOARD}/ecommerce`,
