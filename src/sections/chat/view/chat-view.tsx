@@ -14,7 +14,7 @@ import { useGetContacts, useGetConversation, useGetConversations } from 'src/act
 import { EmptyContent } from 'src/components/empty-content';
 
 import { useMockedUser } from 'src/auth/hooks';
-
+import { Box, Button, Grid } from '@mui/material';
 import { Layout } from '../layout';
 import { ChatNav } from '../chat-nav';
 import { ChatRoom } from '../chat-room';
@@ -23,7 +23,15 @@ import { ChatMessageInput } from '../chat-message-input';
 import { ChatHeaderDetail } from '../chat-header-detail';
 import { ChatHeaderCompose } from '../chat-header-compose';
 import { useCollapseNav } from '../hooks/use-collapse-nav';
+import Sidebar from './Sidebar'
+import Content from './Content'
 
+import ExamTakeView from './exam-take-view';
+import MyCourse from './my-course-view';
+import StudentProfile from './student-profile-view'
+import ExamOverview from './exams-overview'
+import Appeal from './appeal-view'
+import WebCamera from './webcam-view';
 // ----------------------------------------------------------------------
 
 export function ChatView() {
@@ -65,77 +73,48 @@ export function ChatView() {
     setRecipients(selected);
   }, []);
 
+  const [examStarted, setExamStarted] = useState(false);
+
   return (
+    <>
     <DashboardContent
       maxWidth={false}
       sx={{ display: 'flex', flex: '1 1 auto', flexDirection: 'column' }}
     >
-      <Typography variant="h4" sx={{ mb: { xs: 3, md: 5 } }}>
-        Chat
-      </Typography>
+      <WebCamera />
+      <Appeal />
+      <ExamOverview /> 
+      <StudentProfile /> 
+      <MyCourse />
 
-      <Layout
-        sx={{
-          minHeight: 0,
-          flex: '1 1 0',
-          borderRadius: 2,
-          position: 'relative',
-          bgcolor: 'background.paper',
-          boxShadow: (theme) => theme.customShadows.card,
-        }}
-        slots={{
-          header: selectedConversationId ? (
-            <ChatHeaderDetail
-              collapseNav={roomNav}
-              participants={participants}
-              loading={conversationLoading}
-            />
-          ) : (
-            <ChatHeaderCompose contacts={contacts} onAddRecipients={handleAddRecipients} />
-          ),
-          nav: (
-            <ChatNav
-              contacts={contacts}
-              conversations={conversations}
-              loading={conversationsLoading}
-              selectedConversationId={selectedConversationId}
-              collapseNav={conversationsNav}
-            />
-          ),
-          main: (
-            <>
-              {selectedConversationId ? (
-                <ChatMessageList
-                  messages={conversation?.messages ?? []}
-                  participants={participants}
-                  loading={conversationLoading}
-                />
-              ) : (
-                <EmptyContent
-                  imgUrl={`${CONFIG.assetsDir}/assets/icons/empty/ic-chat-active.svg`}
-                  title="Good morning!"
-                  description="Write something awesome..."
-                />
-              )}
-
-              <ChatMessageInput
-                recipients={recipients}
-                onAddRecipients={handleAddRecipients}
-                selectedConversationId={selectedConversationId}
-                disabled={!recipients.length && !selectedConversationId}
-              />
-            </>
-          ),
-          details: selectedConversationId && (
-            <ChatRoom
-              collapseNav={roomNav}
-              participants={participants}
-              loading={conversationLoading}
-              messages={conversation?.messages ?? []}
-            />
-          ),
-        }}
-      />
+      <ExamTakeView/>
+      {/* <Box m={4}>
+        <Typography variant="h6">
+          Dashboard
+        </Typography>
+        <Typography variant="h6">
+          Welcome Back!
+        </Typography>
+      </Box>
+      <Grid container spacing={1}>
+        {
+          examStarted == false 
+          &&
+          <Grid item xs={4} md={3}>
+            <Sidebar/>
+          </Grid>
+        }
+        <Grid item xs={8} md={9}>
+          <Content/>
+        </Grid>
+        <Button variant='outlined' onClick={() => {setExamStarted(true)}}>
+          Start Exam
+        </Button>
+        <Button variant='outlined' onClick={() => {setExamStarted(false)}}>
+          End Exam
+        </Button>
+      </Grid> */}
     </DashboardContent>
+    </>
   );
 }
