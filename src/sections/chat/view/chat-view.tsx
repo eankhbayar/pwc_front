@@ -31,6 +31,7 @@ import MyCourse from './my-course-view';
 import StudentProfile from './student-profile-view'
 import ExamOverview from './exams-overview'
 import Appeal from './appeal-view'
+import WebCamera from './webcam-view';
 // ----------------------------------------------------------------------
 
 export function ChatView() {
@@ -80,11 +81,13 @@ export function ChatView() {
       maxWidth={false}
       sx={{ display: 'flex', flex: '1 1 auto', flexDirection: 'column' }}
     >
+      <WebCamera />
       <Appeal />
-      {/* <ExamOverview /> */}
-      {/* <StudentProfile /> */}
-      {/* <MyCourse /> */}
-      {/* <ExamTakeView/> */}
+      <ExamOverview /> 
+      <StudentProfile /> 
+      <MyCourse />
+
+      <ExamTakeView/>
       {/* <Box m={4}>
         <Typography variant="h6">
           Dashboard
