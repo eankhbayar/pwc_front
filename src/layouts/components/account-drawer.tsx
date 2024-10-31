@@ -1,6 +1,6 @@
 import type { IconButtonProps } from '@mui/material/IconButton';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -28,6 +28,7 @@ import { useMockedUser } from 'src/auth/hooks';
 import { UpgradeBlock } from './nav-upgrade';
 import { AccountButton } from './account-button';
 import { SignOutButton } from './sign-out-button';
+import { getCurrentUser } from 'aws-amplify/auth';
 
 // ----------------------------------------------------------------------
 
@@ -47,7 +48,16 @@ export function AccountDrawer({ data = [], sx, ...other }: AccountDrawerProps) {
 
   const pathname = usePathname();
 
-  const { user } = useMockedUser();
+  const [user, setUser] = useState<any>(null);
+
+  const getUser = async () => {
+    const user = await getCurrentUser();
+    setUser(user.signInDetails);
+  }
+
+  useEffect(() => {
+    getUser();
+  }, []);
 
   const [open, setOpen] = useState(false);
 
@@ -71,7 +81,7 @@ export function AccountDrawer({ data = [], sx, ...other }: AccountDrawerProps) {
     <AnimateAvatar
       width={96}
       slotProps={{
-        avatar: { src: user?.photoURL, alt: user?.displayName },
+        avatar: { src: user?.loginId, alt: user?.loginId },
         overlay: {
           border: 2,
           spacing: 3,
@@ -79,7 +89,7 @@ export function AccountDrawer({ data = [], sx, ...other }: AccountDrawerProps) {
         },
       }}
     >
-      {user?.displayName?.charAt(0).toUpperCase()}
+      {user?.loginId?.charAt(0).toUpperCase()}
     </AnimateAvatar>
   );
 
@@ -112,83 +122,13 @@ export function AccountDrawer({ data = [], sx, ...other }: AccountDrawerProps) {
             {renderAvatar}
 
             <Typography variant="subtitle1" noWrap sx={{ mt: 2 }}>
-              {user?.displayName}
+              {user?.loginId}
             </Typography>
 
             <Typography variant="body2" sx={{ color: 'text.secondary', mt: 0.5 }} noWrap>
               {user?.email}
             </Typography>
           </Stack>
-
-          <Stack direction="row" spacing={1} flexWrap="wrap" justifyContent="center" sx={{ p: 3 }}>
-            {[...Array(3)].map((_, index) => (
-              <Tooltip
-                key={_mock.fullName(index + 1)}
-                title={`Switch to: ${_mock.fullName(index + 1)}`}
-              >
-                <Avatar
-                  alt={_mock.fullName(index + 1)}
-                  src={_mock.image.avatar(index + 1)}
-                  onClick={() => {}}
-                />
-              </Tooltip>
-            ))}
-
-            <Tooltip title="Add account">
-              <IconButton
-                sx={{
-                  bgcolor: varAlpha(theme.vars.palette.grey['500Channel'], 0.08),
-                  border: `dashed 1px ${varAlpha(theme.vars.palette.grey['500Channel'], 0.32)}`,
-                }}
-              >
-                <Iconify icon="mingcute:add-line" />
-              </IconButton>
-            </Tooltip>
-          </Stack>
-
-          <Stack
-            sx={{
-              py: 3,
-              px: 2.5,
-              borderTop: `dashed 1px ${theme.vars.palette.divider}`,
-              borderBottom: `dashed 1px ${theme.vars.palette.divider}`,
-            }}
-          >
-            {data.map((option) => {
-              const rootLabel = pathname.includes('/dashboard') ? 'Home' : 'Dashboard';
-
-              const rootHref = pathname.includes('/dashboard') ? '/' : paths.dashboard.root;
-
-              return (
-                <MenuItem
-                  key={option.label}
-                  onClick={() => handleClickItem(option.label === 'Home' ? rootHref : option.href)}
-                  sx={{
-                    py: 1,
-                    color: 'text.secondary',
-                    '& svg': { width: 24, height: 24 },
-                    '&:hover': { color: 'text.primary' },
-                  }}
-                >
-                  {option.icon}
-
-                  <Box component="span" sx={{ ml: 2 }}>
-                    {option.label === 'Home' ? rootLabel : option.label}
-                  </Box>
-
-                  {option.info && (
-                    <Label color="error" sx={{ ml: 1 }}>
-                      {option.info}
-                    </Label>
-                  )}
-                </MenuItem>
-              );
-            })}
-          </Stack>
-
-          <Box sx={{ px: 2.5, py: 3 }}>
-            <UpgradeBlock />
-          </Box>
         </Scrollbar>
 
         <Box sx={{ p: 2.5 }}>

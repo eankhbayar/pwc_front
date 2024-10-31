@@ -101,6 +101,10 @@ export const paths = {
     calendar: `${ROOTS.DASHBOARD}/calendar`,
     fileManager: `${ROOTS.DASHBOARD}/file-manager`,
     permission: `${ROOTS.DASHBOARD}/permission`,
+    examresult: (exam: string) => `${ROOTS.DASHBOARD}/results/${exam}`,
+    examinfo: (exam: string) => `${ROOTS.DASHBOARD}/info/${exam}`,
+    monitor: (exam: string) => `${ROOTS.DASHBOARD}/monitor/${exam}`,
+    respondents: `${ROOTS.DASHBOARD}/respondents`,
     general: {
       profile: `${ROOTS.DASHBOARD}/studentprofile`,
       exam: `${ROOTS.DASHBOARD}/exams`,

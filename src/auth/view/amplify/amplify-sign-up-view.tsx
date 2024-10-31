@@ -110,7 +110,7 @@ export function AmplifySignUpView() {
 
       const searchParams = new URLSearchParams({ email: data.email }).toString();
 
-      const href = `${paths.auth.amplify.verify}?${searchParams}`;
+      const href = `${paths.auth.amplify.signIn}?${searchParams}`;
 
       router.push(href);
     } catch (error) {

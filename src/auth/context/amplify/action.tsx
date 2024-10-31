@@ -46,7 +46,7 @@ export const signInWithPassword = async ({ username, password }: SignInParams): 
 /** **************************************
  * Sign in
  *************************************** */
-export const signInWithFace = async ({ username, password }: SignInParams): Promise<void> => {
+export const signInWithFace = async ({ username }: SignInWithFaceParams): Promise<void> => {
   const challengeResponse = `${username}.jpeg`;
   try {
     const { nextStep } = await _signIn({
@@ -59,7 +59,6 @@ export const signInWithFace = async ({ username, password }: SignInParams): Prom
       try {
         // to send the answer of the custom challenge
         const output = await _confirmSignIn({ challengeResponse });
-        console.log(output);
       } catch (err) {
         console.log(err);
       }

@@ -27,15 +27,15 @@ import { signInWithFace, signInWithPassword } from '../../context/amplify';
 import WebCamera from './webcam-view';
 import { Card, CardContent, Typography, Button } from '@mui/material';
 
-const aspectRatios ={
-  landscape:{
-      width: 1280,
-      height: 720,
+const aspectRatios = {
+  landscape: {
+    width: 1280,
+    height: 720,
   },
 
-  portrait:{
-      height: 720,
-      width: 1280,
+  portrait: {
+    height: 720,
+    width: 1280,
   },
 }
 
@@ -48,10 +48,6 @@ export const SignInSchema = zod.object({
     .string()
     .min(1, { message: 'Email is required!' })
     .email({ message: 'Email must be a valid email address!' }),
-  password: zod
-   .string()
-   .min(1, { message: 'Password is required!' })
-   .min(6, { message: 'Password must be at least 6 characters!' }),
 });
 
 // ----------------------------------------------------------------------
@@ -88,7 +84,7 @@ export function AmplifySignInView() {
         object_name: data.email,
         file: capturedImage,
         metadata: {
-            email: data.email
+          email: data.email
         }
       };
 
@@ -100,11 +96,11 @@ export function AmplifySignInView() {
         },
       });
 
-      const user = await signInWithFace({ username: data.email, password: data.password });
+      const user = await signInWithFace({ username: data.email });
 
       await checkUserSession?.();
 
-      // router.refresh();
+      router.refresh();
     } catch (error) {
       console.error(error);
       setErrorMsg(typeof error === 'string' ? error : error.message);
@@ -115,46 +111,41 @@ export function AmplifySignInView() {
   const [capturedImage, setCapturedImage] = useState<any>(null);
 
   const capture = () => {
-      const imageSrc = webcamRef.current.getScreenshot();
-      setCapturedImage(imageSrc);
+    const imageSrc = webcamRef.current.getScreenshot();
+    setCapturedImage(imageSrc);
   };
 
   const retakePicture = () => {
-      setCapturedImage(null);
+    setCapturedImage(null);
   };
 
   const renderForm = (
     <Box gap={3} display="flex" flexDirection="column">
       <Field.Text name="email" label="Email address" InputLabelProps={{ shrink: true }} />
-
-      <Box gap={1.5} display="flex" flexDirection="column">
-        <Link
-          component={RouterLink}
-          href={paths.auth.amplify.resetPassword}
-          variant="body2"
-          color="inherit"
-          sx={{ alignSelf: 'flex-end' }}
-        >
-          Forgot password?
-        </Link>
-
-        <Field.Text
-          name="password"
-          label="Password"
-          placeholder="6+ characters"
-          type={password.value ? 'text' : 'password'}
-          InputLabelProps={{ shrink: true }}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={password.onToggle} edge="end">
-                  <Iconify icon={password.value ? 'solar:eye-bold' : 'solar:eye-closed-bold'} />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
+      {capturedImage ? (
+        <Button variant="contained" color="primary" onClick={retakePicture}>
+          Retake
+        </Button>
+      ) : (
+        <Button variant="contained" color="primary" onClick={capture}>
+          Capture
+        </Button>
+      )}
+      {capturedImage == null && (
+        <ReactWebCam
+          mirrored
+          audio={false}
+          height={400}
+          width={400}
+          screenshotFormat='image/jpeg'
+          ref={webcamRef}
         />
-      </Box>
+      )}
+      {capturedImage && (
+        <Box mt={2}>
+          <img src={capturedImage} alt="Captured" style={{ width: '100%' }} />
+        </Box>
+      )}
 
       <LoadingButton
         fullWidth
@@ -194,40 +185,6 @@ export function AmplifySignInView() {
       <Form methods={methods} onSubmit={onSubmit}>
         {renderForm}
       </Form>
-
-      <Box mt={2}>
-            <Card>
-                <CardContent>
-                    <Typography variant="h5" gutterBottom>Web Camera</Typography>
-                    {capturedImage == null && (
-                        <ReactWebCam
-                        mirrored
-                        audio={false}
-                        height={aspectRatios.landscape.height}
-                        width={aspectRatios.landscape.width}
-                        screenshotFormat='image/jpeg'
-                        ref={webcamRef}
-                    />
-                    )}
-                    <Box mt={2}>
-                        {capturedImage ? (
-                            <Button variant="contained" color="primary" onClick={retakePicture}>
-                                Retake
-                            </Button>
-                        ) : (
-                            <Button variant="contained" color="primary" onClick={capture}>
-                                Capture
-                            </Button>
-                        )}
-                    </Box>
-                    {capturedImage && (
-                        <Box mt={2}>
-                            <img src={capturedImage} alt="Captured" style={{ width: '100%' }} />
-                        </Box>
-                    )}
-                </CardContent>
-            </Card>
-        </Box>
     </>
   );
 }
