@@ -12,11 +12,12 @@ import { varAlpha, bgGradient } from 'src/theme/styles';
 type Props = BoxProps & {
   title?: string;
   description?: string;
+  feedback?:string;
   img?: React.ReactNode;
   action?: React.ReactNode;
 };
 
-export function EcommerceWelcome({ title, description, action, img, sx, ...other }: Props) {
+export function EcommerceWelcome({ title, description, feedback, action, img, sx, ...other }: Props) {
   const theme = useTheme();
 
   return (
@@ -26,13 +27,13 @@ export function EcommerceWelcome({ title, description, action, img, sx, ...other
           color: `to right, ${theme.vars.palette.grey[900]} 25%, ${varAlpha(theme.vars.palette.primary.darkerChannel, 0.88)}`,
           imgUrl: `${CONFIG.assetsDir}/assets/background/background-6.webp`,
         }),
-        pt: 5,
-        pb: 5,
+        pt: 3,
+        pb: 3,
         pr: 3,
         gap: 5,
         borderRadius: 2,
         display: 'flex',
-        height: { md: 1 },
+        height: { md: 'flex-start' },
         position: 'relative',
         pl: { xs: 3, md: 5 },
         alignItems: 'center',
@@ -56,8 +57,12 @@ export function EcommerceWelcome({ title, description, action, img, sx, ...other
           {title}
         </Typography>
 
-        <Typography variant="body2" sx={{ opacity: 0.64, maxWidth: 360, ...(action && { mb: 3 }) }}>
+        <Typography variant="h6" sx={{ color: "lightgreen", maxWidth: 360, ...(action && { mb: 3 }) }}>
           {description}
+        </Typography>
+
+        <Typography variant="subtitle2" sx={{  maxWidth: 360, ...(action && { mb: 3 }) }}>
+          {feedback}
         </Typography>
 
         {action && action}

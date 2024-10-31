@@ -65,7 +65,46 @@ export function UserTableRow({ row, selected, onEditRow, onSelectRow, onDeleteRo
 
         <TableCell sx={{ whiteSpace: 'nowrap' }}>{row.company}</TableCell>
 
-        <TableCell sx={{ whiteSpace: 'nowrap' }}>{row.role}</TableCell>
+        <TableCell>
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <Iconify icon="iconoir:face-id" />
+
+            <Label
+              variant="soft"
+              color={
+                (row.status === 'active' && 'success') ||
+                (row.status === 'pending' && 'warning') ||
+                (row.status === 'banned' && 'error') ||
+                'default'
+              }
+            >
+              {row.status}
+            </Label>
+
+            <Iconify icon="solar:eye-broken" />
+
+            <Label
+              variant="soft"
+              color={
+                (row.status === 'active' && 'success') ||
+                (row.status === 'pending' && 'warning') ||
+                (row.status === 'banned' && 'error') ||
+                'default'
+              }
+            >
+              {row.status}
+            </Label>
+          </Stack>
+        </TableCell>
+
+        <TableCell>
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <Iconify icon="bx:user-x" />
+            <Iconify icon="stash:user-group" />
+            <Iconify icon="ri:eye-off-line" />
+            <Iconify icon="pepicons-pop:leave" />
+          </Stack>
+        </TableCell>
 
         <TableCell>
           <Label
@@ -80,6 +119,7 @@ export function UserTableRow({ row, selected, onEditRow, onSelectRow, onDeleteRo
             {row.status}
           </Label>
         </TableCell>
+   
 
         <TableCell>
           <Stack direction="row" alignItems="center">
@@ -97,6 +137,7 @@ export function UserTableRow({ row, selected, onEditRow, onSelectRow, onDeleteRo
             </IconButton>
           </Stack>
         </TableCell>
+
       </TableRow>
 
       <UserQuickEditForm currentUser={row} open={quickEdit.value} onClose={quickEdit.onFalse} />
@@ -108,6 +149,17 @@ export function UserTableRow({ row, selected, onEditRow, onSelectRow, onDeleteRo
         slotProps={{ arrow: { placement: 'right-top' } }}
       >
         <MenuList>
+          <MenuItem
+            onClick={() => {
+              confirm.onTrue();
+              popover.onClose();
+            }}
+            
+          >
+            <Iconify icon="material-symbols:read-more" />
+            More
+          </MenuItem>
+
           <MenuItem
             onClick={() => {
               confirm.onTrue();

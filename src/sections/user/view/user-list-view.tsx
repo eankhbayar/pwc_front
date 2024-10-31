@@ -51,10 +51,11 @@ const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...USER_STATUS_OPTIONS];
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Name' },
-  { id: 'phoneNumber', label: 'Phone number', width: 180 },
-  { id: 'company', label: 'Company', width: 220 },
-  { id: 'role', label: 'Role', width: 180 },
-  { id: 'status', label: 'Status', width: 100 },
+  { id: 'startTime', label: 'Start Time', width: 150 },
+  { id: 'endTime', label: 'End Time', width: 150 },
+  { id: 'BiometricAuthenticationStatus', label: 'Biometric Authentication Status', width: 200 },
+  { id: 'SuspiciousActivity', label: 'Suspicious Activity', width: 200 },
+  { id: 'SuspicionLevel', label: 'Suspicion Level', width: 180 },
   { id: '', width: 88 },
 ];
 

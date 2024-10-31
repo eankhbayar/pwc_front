@@ -1,6 +1,26 @@
-import Button from '@mui/material/Button';
-import { useTheme } from '@mui/material/styles';
+
+import type { IJobItem } from 'src/types/job';
+
+import Chip from '@mui/material/Chip';
+import Card from '@mui/material/Card';
+import Paper from '@mui/material/Paper';
+import Stack from '@mui/material/Stack';
+import Avatar from '@mui/material/Avatar';
 import Grid from '@mui/material/Unstable_Grid2';
+import Typography from '@mui/material/Typography';
+import ListItemText from '@mui/material/ListItemText';
+
+import { fDate } from 'src/utils/format-time';
+import { fCurrency } from 'src/utils/format-number';
+
+import { Iconify } from 'src/components/iconify';
+import { Markdown } from 'src/components/markdown';
+import Box from '@mui/material/Box';
+import { useState } from 'react';
+import { Button } from "@mui/material";
+import { Link } from "react-router-dom";
+import { useTheme } from '@mui/material/styles';
+
 
 import { DashboardContent } from 'src/layouts/dashboard';
 import { MotivationIllustration } from 'src/assets/illustrations';
@@ -25,7 +45,11 @@ import { EcommerceCurrentBalance } from '../ecommerce-current-balance';
 
 // ----------------------------------------------------------------------
 
-export function OverviewEcommerceView() {
+type Props = {
+  job?: IJobItem;
+};
+
+export function OverviewEcommerceView({ job }: Props) {
   const { user } = useMockedUser();
 
   const theme = useTheme();
@@ -33,21 +57,64 @@ export function OverviewEcommerceView() {
   return (
     <DashboardContent maxWidth="xl">
       <Grid container spacing={3}>
-        <Grid xs={12} md={8}>
+        <Grid xs={12} md={7}>
           <EcommerceWelcome
             title={`Congratulations 🎉  \n ${user?.displayName}`}
-            description="Best seller of the month you have done 57.6% more sales today."
+            description="You passed the exam!"
+            feedback="You did a great job! Still need more practical coding  exercise."
             img={<MotivationIllustration hideBackground />}
-            action={
-              <Button variant="contained" color="primary">
-                Go now
-              </Button>
-            }
+
           />
         </Grid>
 
-        <Grid xs={12} md={4}>
-          <EcommerceNewProducts list={_ecommerceNewProducts} />
+        <Grid xs={12} md={5}>
+          {/* <EcommerceNewProducts list={_ecommerceNewProducts} /> */}
+          <Card sx={{ p: 3, gap: 2, display: 'flex', flexDirection: 'column' }}>
+            <Typography variant="h6">Exam Information</Typography>
+            {[
+              {
+                label: 'Exam Title:',
+                value: fDate(job?.createdAt),
+                icon: <Iconify icon="solar:bill-list-bold" />,
+              },
+              {
+                label: 'Exam Date:',
+                value: fDate(job?.createdAt),
+                icon: <Iconify icon="solar:calendar-date-bold" />,
+              },
+              {
+                label: 'Start Time:',
+                value: fDate(job?.createdAt),
+                icon: <Iconify icon="solar:clock-circle-bold" />,
+              },
+              {
+                label: 'End Time:',
+                value: fDate(job?.expiredDate),
+                icon: <Iconify icon="solar:clock-circle-bold" />,
+              },
+              {
+                label: 'Time Allowed:',
+                value: job?.salary.negotiable ? 'Negotiable' : fCurrency(job?.salary.price),
+                icon: <Iconify icon="solar:bell-bing-bold" />,
+              },
+            ].map((item) => (
+              <Stack key={item.label} spacing={1.5} direction="row">
+                {item.icon}
+                <ListItemText
+                  primary={item.label}
+                  secondary={item.value}
+                  primaryTypographyProps={{ typography: 'body2', color: 'text.secondary', mb: 0.5 }}
+                  secondaryTypographyProps={{
+                    component: 'span',
+                    color: 'text.primary',
+                    typography: 'subtitle2',
+                  }}
+                />
+              </Stack>
+            ))}
+
+          </Card>
+
         </Grid>
 
         <Grid xs={12} md={4}>
