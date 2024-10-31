@@ -48,7 +48,7 @@ function Item({ progress }: ItemProps) {
         <Box component="span" sx={{ flexGrow: 1 }}>
           {progress.label}
         </Box>
-        <Box component="span">{fCurrency(progress.totalAmount)}</Box>
+        <Box component="span">{progress.totalAmount}</Box>
         <Box component="span" sx={{ typography: 'body2', color: 'text.secondary' }}>
           ({fPercent(progress.value)})
         </Box>

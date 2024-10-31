@@ -104,7 +104,7 @@ export function AppWidget({ title, total, icon, chart, sx, ...other }: Props) {
 
       <div>
         <Box sx={{ typography: 'h4' }}>{fNumber(total)}</Box>
-        <Box sx={{ typography: 'subtitle2', opacity: 0.64 }}>{title}</Box>
+        <Box sx={{ typography: 'subtitle2', opacity: 0.9 }}>{title}</Box>
       </div>
 
       <Iconify

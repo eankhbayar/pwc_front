@@ -32,6 +32,8 @@ export function FileStorageOverview({ data, total, chart, ...other }: Props) {
 
   const chartColors = chart.colors ?? [theme.palette.secondary.main, theme.palette.secondary.light];
 
+  console.log(chart);
+
   const chartOptions = useChart({
     chart: { sparkline: { enabled: true } },
     stroke: { width: 0 },

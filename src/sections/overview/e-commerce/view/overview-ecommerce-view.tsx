@@ -11,7 +11,7 @@ import Typography from '@mui/material/Typography';
 import ListItemText from '@mui/material/ListItemText';
 
 import { fDate } from 'src/utils/format-time';
-import { fCurrency } from 'src/utils/format-number';
+import { fCurrency, fData } from 'src/utils/format-number';
 
 import { Iconify } from 'src/components/iconify';
 import { Markdown } from 'src/components/markdown';
@@ -20,6 +20,8 @@ import { useState } from 'react';
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useTheme } from '@mui/material/styles';
+
+import { svgColorClasses } from 'src/components/svg-color';
 
 
 import { DashboardContent } from 'src/layouts/dashboard';
@@ -33,6 +35,9 @@ import {
 
 import { useMockedUser } from 'src/auth/hooks';
 
+import chart from 'src/pages/components/extra/chart';
+import { Chart, useChart } from 'src/components/chart';
+
 import { EcommerceWelcome } from '../ecommerce-welcome';
 import { EcommerceNewProducts } from '../ecommerce-new-products';
 import { EcommerceYearlySales } from '../ecommerce-yearly-sales';
@@ -42,6 +47,10 @@ import { EcommerceSalesOverview } from '../ecommerce-sales-overview';
 import { EcommerceWidgetSummary } from '../ecommerce-widget-summary';
 import { EcommerceLatestProducts } from '../ecommerce-latest-products';
 import { EcommerceCurrentBalance } from '../ecommerce-current-balance';
+import { AppWidget } from '../ecommerce-widget';
+
+
+
 
 // ----------------------------------------------------------------------
 
@@ -53,6 +62,40 @@ export function OverviewEcommerceView({ job }: Props) {
   const { user } = useMockedUser();
 
   const theme = useTheme();
+
+  const chartOptions = useChart({
+    chart: { sparkline: { enabled: true } },
+    stroke: { width: 0 },
+    fill: {
+      type: 'gradient',
+      gradient: {
+        colorStops: [
+          { offset: 0, color: "green", opacity: 1 },
+          { offset: 100, color: "lightgreen", opacity: 1 },
+        ],
+      },
+    },
+    plotOptions: {
+      radialBar: {
+        offsetY: 40,
+        startAngle: -90,
+        endAngle: 90,
+        hollow: { margin: -24 },
+        track: { margin: -24 },
+        dataLabels: {
+          name: { offsetY: 8 },
+          value: { offsetY: -36 },
+          total: {
+            label: `Time Used: 1 h 25 mins`,
+            color: theme.vars.palette.text.disabled,
+            fontSize: theme.typography.caption.fontSize as string,
+            fontWeight: theme.typography.caption.fontWeight,
+          },
+        },
+      },
+    },
+    // ...chart.options,
+  });
 
   return (
     <DashboardContent maxWidth="xl">
@@ -118,6 +161,44 @@ export function OverviewEcommerceView({ job }: Props) {
         </Grid>
 
         <Grid xs={12} md={4}>
+          <AppWidget
+            title="Marks"
+            total={75}
+            icon="material-symbols:readiness-score-outline"
+            chart={{
+              series: 75,
+            }}
+          />
+        </Grid>
+
+        <Grid xs={12} md={4}>
+          <AppWidget
+            title="Rank"
+            total={13}
+            icon="solar:ranking-line-duotone"
+            chart={{
+              series: 81,
+              colors: [theme.vars.palette.info.light, theme.vars.palette.info.main],
+            }}
+            sx={{ bgcolor: 'info.dark', [`& .${svgColorClasses.root}`]: { color: 'info.light' } }}
+          />
+        </Grid>
+
+        <Grid xs={12} md={4}>
+          <AppWidget
+            title="correctness (/45)"
+            total={32}
+            icon="icon-park-outline:correct"
+            chart={{
+              series: 78,
+              colors: [theme.vars.palette.secondary.light, theme.vars.palette.secondary.main],
+            }}
+            sx={{ bgcolor: 'secondary.dark', [`& .${svgColorClasses.root}`]: { color: 'secondary.light' } }}
+          />
+        </Grid>
+
+
+        {/* <Grid xs={12} md={4}>
           <EcommerceWidgetSummary
             title="Product sold"
             percent={2.6}
@@ -153,17 +234,17 @@ export function OverviewEcommerceView({ job }: Props) {
               series: [40, 70, 75, 70, 50, 28, 7, 64],
             }}
           />
-        </Grid>
+        </Grid> */}
 
         <Grid xs={12} md={6} lg={4}>
           <EcommerceSaleByGender
-            title="Sale by gender"
-            total={2324}
+            title="Score per Question Types"
+            total={75}
             chart={{
               series: [
-                { label: 'Mens', value: 25 },
-                { label: 'Womens', value: 50 },
-                { label: 'Kids', value: 75 },
+                { label: 'MC', value: 95 },
+                { label: 'Short Questions', value: 75 },
+                { label: 'Coding', value: 60 },
               ],
             }}
           />
@@ -171,48 +252,31 @@ export function OverviewEcommerceView({ job }: Props) {
 
         <Grid xs={12} md={6} lg={8}>
           <EcommerceYearlySales
-            title="Yearly sales"
-            subheader="(+43%) than last year"
+            title="Exam Statistic"
+            subheader="No. of Respondent: 150  Mean: 80  SD:1.5"
             chart={{
               categories: [
-                'Jan',
-                'Feb',
-                'Mar',
-                'Apr',
-                'May',
-                'Jun',
-                'Jul',
-                'Aug',
-                'Sep',
-                'Oct',
-                'Nov',
-                'Dec',
+                '10',
+                '20',
+                '30',
+                '40',
+                '50',
+                '60',
+                '70',
+                '80',
+                '90',
+                '100',
               ],
               series: [
+
                 {
-                  name: '2022',
+                  name: 'Final Exam',
                   data: [
                     {
-                      name: 'Total income',
-                      data: [10, 41, 35, 51, 49, 62, 69, 91, 148, 35, 51, 49],
+                      name: 'Mark Distribution',
+                      data: [0, 0, 2, 7, 10, 21, 43, 60, 15, 1],
                     },
-                    {
-                      name: 'Total expenses',
-                      data: [10, 34, 13, 56, 77, 88, 99, 77, 45, 13, 56, 77],
-                    },
-                  ],
-                },
-                {
-                  name: '2023',
-                  data: [
-                    {
-                      name: 'Total income',
-                      data: [51, 35, 41, 10, 91, 69, 62, 148, 91, 69, 62, 49],
-                    },
-                    {
-                      name: 'Total expenses',
-                      data: [56, 13, 34, 10, 77, 99, 88, 45, 77, 99, 88, 77],
-                    },
+
                   ],
                 },
               ],
@@ -221,20 +285,68 @@ export function OverviewEcommerceView({ job }: Props) {
         </Grid>
 
         <Grid xs={12} md={6} lg={8}>
-          <EcommerceSalesOverview title="Sales overview" data={_ecommerceSalesOverview} />
+          <EcommerceSalesOverview
+            title="Score Per Topics"
+            subheader=""
+            data={[
+              {
+                label: 'Operators and Expression',
+                value: 90,
+                totalAmount: 9,
+              },
+              {
+                label: 'Variable and Data Type',
+                value: 95,
+                totalAmount: 6,
+              },
+              {
+                label: 'Control Flow',
+                value: 91,
+                totalAmount: 10,
+              },
+              {
+                label: 'Functions',
+                value: 80,
+                totalAmount: 11,
+              },
+              {
+                label: 'Data Structures',
+                value: 70,
+                totalAmount: 15,
+              },
+            ]}
+          />
         </Grid>
 
         <Grid xs={12} md={6} lg={4}>
-          <EcommerceCurrentBalance
+        <Card sx={{ p: 3, gap: 1, display: 'flex', flexDirection: 'column' }}>
+          {/* <EcommerceCurrentBalance
             title="Current balance"
             earning={25500}
             refunded={1600}
             orderTotal={287650}
             currentBalance={187650}
+          /> */}
+          <Chart
+            type="radialBar"
+            series={[76]}
+            options={chartOptions}
+            width={240}
+            height={240}
+            sx={{ mx: 'auto' }}
           />
+          <Grid container spacing={2} sx={{display: 'flex', flexDirection: 'row'}}>
+          <Grid md={6}>
+            <Typography variant='body2'>Start Time: 09:01 am</Typography> 
+          </Grid>
+          <Grid md={6}>
+          <Typography variant='body2'>End Time: 10:26 am</Typography>
+          </Grid>
+          </Grid>
+          </Card>
         </Grid>
 
-        <Grid xs={12} md={6} lg={8}>
+        {/* <Grid xs={12} md={6} lg={8}>
           <EcommerceBestSalesman
             title="Best salesman"
             tableData={_ecommerceBestSalesman}
@@ -250,7 +362,7 @@ export function OverviewEcommerceView({ job }: Props) {
 
         <Grid xs={12} md={6} lg={4}>
           <EcommerceLatestProducts title="Latest products" list={_ecommerceLatestProducts} />
-        </Grid>
+        </Grid> */}
       </Grid>
     </DashboardContent>
   );
