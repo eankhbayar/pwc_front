@@ -15,12 +15,6 @@ import type { AuthState } from '../../types';
 // ----------------------------------------------------------------------
 
 /**
- * NOTE:
- * We only build demo at basic level.
- * Customer will need to do some extra handling yourself if you want to extend the logic and other features...
- */
-
-/**
  * Docs:
  * https://docs.amplify.aws/react/build-a-backend/auth/manage-user-session/
  */
@@ -30,6 +24,12 @@ Amplify.configure({
     Cognito: {
       userPoolId: CONFIG.amplify.userPoolId,
       userPoolClientId: CONFIG.amplify.userPoolWebClientId,
+    },
+  },
+  Storage: {
+    S3: {
+      region: CONFIG.amplify.storageRegion,
+      bucket: CONFIG.amplify.storageBucket,
     },
   },
 });
@@ -82,12 +82,12 @@ export function AuthProvider({ children }: Props) {
     () => ({
       user: state.user
         ? {
-            ...state.user,
-            id: state.user?.sub,
-            accessToken: state.user?.accessToken?.toString(),
-            displayName: `${state.user?.given_name} ${state.user?.family_name}`,
-            role: state.user?.role ?? 'admin',
-          }
+          ...state.user,
+          id: state.user?.sub,
+          accessToken: state.user?.accessToken?.toString(),
+          displayName: `${state.user?.given_name} ${state.user?.family_name}`,
+          role: state.user?.role ?? 'admin',
+        }
         : null,
       checkUserSession,
       loading: status === 'loading',

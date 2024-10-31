@@ -1,7 +1,9 @@
 import { z as zod } from 'zod';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+
+import ReactWebCam from 'react-webcam';
 
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
@@ -21,7 +23,21 @@ import { Form, Field } from 'src/components/hook-form';
 
 import { useAuthContext } from '../../hooks';
 import { FormHead } from '../../components/form-head';
-import { signInWithPassword } from '../../context/amplify';
+import { signInWithFace, signInWithPassword } from '../../context/amplify';
+import WebCamera from './webcam-view';
+import { Card, CardContent, Typography, Button } from '@mui/material';
+
+const aspectRatios ={
+  landscape:{
+      width: 1280,
+      height: 720,
+  },
+
+  portrait:{
+      height: 720,
+      width: 1280,
+  },
+}
 
 // ----------------------------------------------------------------------
 
@@ -33,9 +49,9 @@ export const SignInSchema = zod.object({
     .min(1, { message: 'Email is required!' })
     .email({ message: 'Email must be a valid email address!' }),
   password: zod
-    .string()
-    .min(1, { message: 'Password is required!' })
-    .min(6, { message: 'Password must be at least 6 characters!' }),
+   .string()
+   .min(1, { message: 'Password is required!' })
+   .min(6, { message: 'Password must be at least 6 characters!' }),
 });
 
 // ----------------------------------------------------------------------
@@ -66,15 +82,46 @@ export function AmplifySignInView() {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await signInWithPassword({ username: data.email, password: data.password });
+      const params = {
+        bucket_name: 'pwc-sign-in-bucket',
+        file_name: data.email + '.jpeg',
+        object_name: data.email,
+        file: capturedImage,
+        metadata: {
+            email: data.email
+        }
+      };
+
+      await fetch('https://qhgg5j4v2f.execute-api.us-east-1.amazonaws.com/prod/upload', {
+        method: 'POST',
+        body: JSON.stringify(params),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const user = await signInWithFace({ username: data.email, password: data.password });
+
       await checkUserSession?.();
 
-      router.refresh();
+      // router.refresh();
     } catch (error) {
       console.error(error);
       setErrorMsg(typeof error === 'string' ? error : error.message);
     }
   });
+
+  const webcamRef = useRef(null);
+  const [capturedImage, setCapturedImage] = useState<any>(null);
+
+  const capture = () => {
+      const imageSrc = webcamRef.current.getScreenshot();
+      setCapturedImage(imageSrc);
+  };
+
+  const retakePicture = () => {
+      setCapturedImage(null);
+  };
 
   const renderForm = (
     <Box gap={3} display="flex" flexDirection="column">
@@ -147,6 +194,40 @@ export function AmplifySignInView() {
       <Form methods={methods} onSubmit={onSubmit}>
         {renderForm}
       </Form>
+
+      <Box mt={2}>
+            <Card>
+                <CardContent>
+                    <Typography variant="h5" gutterBottom>Web Camera</Typography>
+                    {capturedImage == null && (
+                        <ReactWebCam
+                        mirrored
+                        audio={false}
+                        height={aspectRatios.landscape.height}
+                        width={aspectRatios.landscape.width}
+                        screenshotFormat='image/jpeg'
+                        ref={webcamRef}
+                    />
+                    )}
+                    <Box mt={2}>
+                        {capturedImage ? (
+                            <Button variant="contained" color="primary" onClick={retakePicture}>
+                                Retake
+                            </Button>
+                        ) : (
+                            <Button variant="contained" color="primary" onClick={capture}>
+                                Capture
+                            </Button>
+                        )}
+                    </Box>
+                    {capturedImage && (
+                        <Box mt={2}>
+                            <img src={capturedImage} alt="Captured" style={{ width: '100%' }} />
+                        </Box>
+                    )}
+                </CardContent>
+            </Card>
+        </Box>
     </>
   );
 }

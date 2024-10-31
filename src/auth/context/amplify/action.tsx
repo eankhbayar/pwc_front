@@ -12,6 +12,7 @@ import {
   signUp as _signUp,
   signOut as _signOut,
   confirmSignUp as _confirmSignUp,
+  confirmSignIn as _confirmSignIn,
   resetPassword as _resetPassword,
   resendSignUpCode as _resendSignUpCode,
   confirmResetPassword as _confirmResetPassword,
@@ -20,6 +21,10 @@ import {
 // ----------------------------------------------------------------------
 
 export type SignInParams = SignInInput;
+
+export type SignInWithFaceParams = {
+  username: string;
+};
 
 export type SignUpParams = SignUpInput & { firstName: string; lastName: string };
 
@@ -39,6 +44,32 @@ export const signInWithPassword = async ({ username, password }: SignInParams): 
 };
 
 /** **************************************
+ * Sign in
+ *************************************** */
+export const signInWithFace = async ({ username, password }: SignInParams): Promise<void> => {
+  const challengeResponse = `${username}.jpeg`;
+  try {
+    const { nextStep } = await _signIn({
+      username,
+      options: {
+        authFlowType: 'CUSTOM_WITHOUT_SRP',
+      },
+    });
+    if (nextStep.signInStep === 'CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE') {
+      try {
+        // to send the answer of the custom challenge
+        const output = await _confirmSignIn({ challengeResponse });
+        console.log(output);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+/** **************************************
  * Sign up
  *************************************** */
 export const signUp = async ({
@@ -50,7 +81,7 @@ export const signUp = async ({
   await _signUp({
     username,
     password,
-    options: { userAttributes: { email: username, given_name: firstName, family_name: lastName } },
+    options: { userAttributes: { email: username, name: `${firstName} ${lastName}` } },
   });
 };
 

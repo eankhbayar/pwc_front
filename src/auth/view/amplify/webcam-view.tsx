@@ -4,13 +4,13 @@ import { Typography, Card, CardContent, Box, Button } from '@mui/material';
 
 const aspectRatios ={
     landscape:{
-        width: 1920,
-        height: 1080,
+        width: 1280,
+        height: 720,
     },
 
     portrait:{
-        height: 1920,
-        width: 1080,
+        height: 720,
+        width: 1280,
     },
 }
 
@@ -39,13 +39,16 @@ const WebCamera: React.FC = () => {
             <Card>
                 <CardContent>
                     <Typography variant="h5" gutterBottom>Web Camera</Typography>
-                    <ReactWebCam
+                    {capturedImage == null && (
+                        <ReactWebCam
                         mirrored
                         audio={false}
                         height={aspectRatios.landscape.height}
                         width={aspectRatios.landscape.width}
+                        screenshotFormat='image/jpeg'
                         ref={webcamRef}
                     />
+                    )}
                     <Box mt={2}>
                         {capturedImage ? (
                             <Button variant="contained" color="primary" onClick={retakePicture}>
