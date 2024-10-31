@@ -49,6 +49,7 @@ const ExamTakeView: React.FC = () => {
     };
     return(
         <Card>
+            <Typography variant="h3"> CSCI1200 Introduction to Python</Typography>
             <Box p={3} display={'flex'} justifyContent={'space-between'} alignItems={'center'}>
                 <Typography variant="h6" > 
                     {steps[activeStep]}

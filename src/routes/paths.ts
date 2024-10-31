@@ -102,13 +102,17 @@ export const paths = {
     fileManager: `${ROOTS.DASHBOARD}/file-manager`,
     permission: `${ROOTS.DASHBOARD}/permission`,
     general: {
+      profile: `${ROOTS.DASHBOARD}/studentprofile`,
+      exam: `${ROOTS.DASHBOARD}/exams`,
+      course: `${ROOTS.DASHBOARD}/course`,
+      course_subject: (cid: number) => `${ROOTS.DASHBOARD}/course/${cid}`,
+      appeal: `${ROOTS.DASHBOARD}/appeal`,
       app: `${ROOTS.DASHBOARD}/app`,
       ecommerce: `${ROOTS.DASHBOARD}/ecommerce`,
       analytics: `${ROOTS.DASHBOARD}/analytics`,
       banking: `${ROOTS.DASHBOARD}/banking`,
       booking: `${ROOTS.DASHBOARD}/booking`,
       file: `${ROOTS.DASHBOARD}/file`,
-      course: `${ROOTS.DASHBOARD}/course`,
     },
     user: {
       root: `${ROOTS.DASHBOARD}/user`,
@@ -122,6 +126,8 @@ export const paths = {
         edit: `${ROOTS.DASHBOARD}/user/${MOCK_ID}/edit`,
       },
     },
+
+
     product: {
       root: `${ROOTS.DASHBOARD}/product`,
       new: `${ROOTS.DASHBOARD}/product/new`,

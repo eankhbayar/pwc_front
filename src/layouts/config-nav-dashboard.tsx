@@ -50,13 +50,15 @@ export const navData = [
   {
     subheader: 'Overview',
     items: [
-      { title: 'App', path: paths.dashboard.root, icon: ICONS.dashboard },
+      { title: 'Student Profile', path: paths.dashboard.general.profile, icon: ICONS.user },
+      { title: 'Exams', path: paths.dashboard.general.exam, icon: ICONS.folder },
+      { title: 'My Course', path: paths.dashboard.general.course, icon: ICONS.course },
+      { title: 'Appeal', path: paths.dashboard.general.appeal, icon: ICONS.chat },
       { title: 'Ecommerce', path: paths.dashboard.general.ecommerce, icon: ICONS.ecommerce },
       { title: 'Analytics', path: paths.dashboard.general.analytics, icon: ICONS.analytics },
       { title: 'Banking', path: paths.dashboard.general.banking, icon: ICONS.banking },
       { title: 'Booking', path: paths.dashboard.general.booking, icon: ICONS.booking },
       { title: 'File', path: paths.dashboard.general.file, icon: ICONS.file },
-      { title: 'Course', path: paths.dashboard.general.course, icon: ICONS.course },
     ],
   },
   /**
