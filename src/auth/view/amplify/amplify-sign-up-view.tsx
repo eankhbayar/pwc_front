@@ -83,12 +83,12 @@ export function AmplifySignUpView() {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      // await signUp({
-      //   username: data.email,
-      //   password: data.password,
-      //   firstName: data.firstName,
-      //   lastName: data.lastName,
-      // });
+      await signUp({
+        username: data.email,
+        password: data.password,
+        firstName: data.firstName,
+        lastName: data.lastName,
+      });
 
       const params = {
         bucket_name: 'pwc-sign-up-bucket',
