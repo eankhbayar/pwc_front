@@ -6,7 +6,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { fCurrency, fShortenNumber } from 'src/utils/format-number';
 
 import { varAlpha } from 'src/theme/styles';
-
+import { Label } from 'src/components/label';
 import { Iconify } from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
@@ -14,13 +14,15 @@ import { Iconify } from 'src/components/iconify';
 type Props = {
   icon: string;
   title: string;
-  total: number;
+  subtitle: string;
+  // total: number;
   price: number;
   color?: string;
   percent: number;
+  label?: string;
 };
 
-export function InvoiceAnalytic({ title, total, icon, color, percent, price }: Props) {
+export function InvoiceAnalytic({ title, icon, subtitle, color, percent, price, label }: Props) {
   return (
     <Stack
       spacing={2.5}
@@ -58,11 +60,11 @@ export function InvoiceAnalytic({ title, total, icon, color, percent, price }: P
       <Stack spacing={0.5}>
         <Typography variant="subtitle1">{title}</Typography>
 
-        <Box component="span" sx={{ color: 'text.disabled', typography: 'body2' }}>
-          {fShortenNumber(total)} invoices
-        </Box>
+        <Typography variant="body2" sx={{ color: 'text.disabled'}}>{subtitle}</Typography>
 
-        <Typography variant="subtitle2">{fCurrency(price)}</Typography>
+        <Typography variant="subtitle2">{price} Minutes</Typography>
+        
+        {label && <Label color='error'>{label}</Label>}
       </Stack>
     </Stack>
   );

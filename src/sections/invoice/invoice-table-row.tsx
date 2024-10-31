@@ -58,7 +58,7 @@ export function InvoiceTableRow({
           />
         </TableCell>
 
-        <TableCell>
+        {/* <TableCell>
           <Stack spacing={2} direction="row" alignItems="center">
             <Avatar alt={row.invoiceTo.name}>{row.invoiceTo.name.charAt(0).toUpperCase()}</Avatar>
 
@@ -81,31 +81,37 @@ export function InvoiceTableRow({
               }
             />
           </Stack>
-        </TableCell>
+        </TableCell> */}
 
         <TableCell>
           <ListItemText
-            primary={fDate(row.createDate)}
+            // primary={fDate(row.createDate)}
             secondary={fTime(row.createDate)}
             primaryTypographyProps={{ typography: 'body2', noWrap: true }}
-            secondaryTypographyProps={{ mt: 0.5, component: 'span', typography: 'caption' }}
+            secondaryTypographyProps={{ mt: 0.5, component: 'span', typography: 'body2' }}
           />
         </TableCell>
 
         <TableCell>
           <ListItemText
-            primary={fDate(row.dueDate)}
-            secondary={fTime(row.dueDate)}
+            primary='Eyes Off-Screen'
+            // secondary={fTime(row.dueDate)}
             primaryTypographyProps={{ typography: 'body2', noWrap: true }}
             secondaryTypographyProps={{ mt: 0.5, component: 'span', typography: 'caption' }}
           />
         </TableCell>
-
-        <TableCell>{fCurrency(row.totalAmount)}</TableCell>
-
-        <TableCell align="center">{row.sent}</TableCell>
-
         <TableCell>
+          <ListItemText
+            primary='Your eyes were detected off-screen for 12 seconds.'
+            primaryTypographyProps={{ typography: 'body2', noWrap: true }}
+          />
+        </TableCell>
+
+        {/* <TableCell>{fCurrency(row.totalAmount)}</TableCell> */}
+
+        {/* <TableCell align="center">{row.sent}</TableCell> */}
+
+        {/* <TableCell>
           <Label
             variant="soft"
             color={
@@ -118,6 +124,7 @@ export function InvoiceTableRow({
             {row.status}
           </Label>
         </TableCell>
+        */}
 
         <TableCell align="right" sx={{ px: 1 }}>
           <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
