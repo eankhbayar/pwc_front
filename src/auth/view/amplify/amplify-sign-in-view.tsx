@@ -111,6 +111,8 @@ export function AmplifySignInView() {
   const [capturedImage, setCapturedImage] = useState<any>(null);
 
   const capture = () => {
+    // ignore
+    //tslint:disable-next-line:no-empty
     const imageSrc = webcamRef.current.getScreenshot();
     setCapturedImage(imageSrc);
   };
