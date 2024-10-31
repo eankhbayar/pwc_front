@@ -2,11 +2,11 @@ import { Helmet } from 'react-helmet-async';
 
 import { CONFIG } from 'src/config-global';
 
-import MyCourse from 'src/sections/overview/course/view/my-course-view';
+import StudentProfile from 'src/sections/overview/student-profile/view/student-profile-view';
 
 // ----------------------------------------------------------------------
 
-const metadata = { title: `Course | Dashboard - ${CONFIG.appName}` };
+const metadata = { title: `Student profile | Dashboard - ${CONFIG.appName}` };
 
 export default function Page() {
   return (
@@ -15,7 +15,7 @@ export default function Page() {
         <title> {metadata.title}</title>
       </Helmet>
 
-      <MyCourse />
+      <StudentProfile />
     </>
   );
 }

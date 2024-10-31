@@ -1,5 +1,9 @@
 import React from 'react';
-import { Box, ButtonBase, Card, Grid, Typography,CardContent } from '@mui/material';
+import { Box, ButtonBase, Card, Grid, Typography,CardContent, Button } from '@mui/material';
+import { useNavigate, Link } from 'react-router-dom';
+import { RouterLink } from 'src/routes/components';
+import { paths } from 'src/routes/paths';
+import { useRouter } from 'src/routes/hooks';
 
 interface Course {
     cid: number;
@@ -19,6 +23,7 @@ const courses: Course[] = [
     { cid: 6, name: 'Computer Science', instructor: 'Prof. Khan', availability: 'Open'},
 ];
 const MyCourse : React.FC = () => {
+    const router = useRouter();
 
     return(
         <Grid>
@@ -42,12 +47,18 @@ const MyCourse : React.FC = () => {
                     {courses.map((course) => (
                         <Grid item key={course.cid} xs={12} sm={6} md={4}>
                             <Card style={{ height: '100%', display: 'flex' }}>
-                            <ButtonBase style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
+                            <Button
+                                component={Link}
+                                to={`/dashboard/course/${course.cid}`} // Link to the exam page
+                                variant="contained" style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
                                     <CardContent style={{flex: 1}}>
                                         <Typography variant="h6" gutterBottom textAlign='left'>{course.name}</Typography>
                                         <Typography variant="body2" textAlign='left'>{course.availability} | Instructor: {course.instructor}</Typography>
                                     </CardContent>
-                                </ButtonBase>
+                            </Button>
+                                {/* <Button onClick={() => {router.push(paths.dashboard.general.course_subject(course.cid))}}>
+                                    
+                                </Button> */}
                             </Card>
                         </Grid>
                     ))}

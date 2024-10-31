@@ -2,7 +2,7 @@ import { Helmet } from 'react-helmet-async';
 
 import { CONFIG } from 'src/config-global';
 
-import MyCourse from 'src/sections/overview/course/view/my-course-view';
+import CourseDetails from 'src/sections/overview/course/view/detail/course-page';
 
 // ----------------------------------------------------------------------
 
@@ -15,7 +15,7 @@ export default function Page() {
         <title> {metadata.title}</title>
       </Helmet>
 
-      <MyCourse />
+      <CourseDetails />
     </>
   );
 }

@@ -7,17 +7,23 @@ import { DashboardLayout } from 'src/layouts/dashboard';
 import { LoadingScreen } from 'src/components/loading-screen';
 
 import { AuthGuard } from 'src/auth/guard';
+import ExamOverview from 'src/sections/overview/exam-overview/exams-overview';
+import MyCourse from 'src/sections/overview/course/view/my-course-view';
 
 // ----------------------------------------------------------------------
 
 // Overview
 const IndexPage = lazy(() => import('src/pages/dashboard'));
+const OverviewStudentProfile = lazy(() => import('src/pages/dashboard/studentprofile'));
+const OverviewExamOverview = lazy(() => import('src/pages/dashboard/exams'));
+const OverviewCoursePage = lazy(() => import('src/pages/dashboard/course'));
+const CourseDetails = lazy(() => import('src/sections/overview/course/view/detail'));
+const OverviewAppealPage = lazy(() => import('src/pages/dashboard/appeal'));
 const OverviewEcommercePage = lazy(() => import('src/pages/dashboard/ecommerce'));
 const OverviewAnalyticsPage = lazy(() => import('src/pages/dashboard/analytics'));
 const OverviewBankingPage = lazy(() => import('src/pages/dashboard/banking'));
 const OverviewBookingPage = lazy(() => import('src/pages/dashboard/booking'));
 const OverviewFilePage = lazy(() => import('src/pages/dashboard/file'));
-const OverviewCoursePage = lazy(() => import('src/pages/dashboard/course'));
 // Product
 const ProductDetailsPage = lazy(() => import('src/pages/dashboard/product/details'));
 const ProductListPage = lazy(() => import('src/pages/dashboard/product/list'));
@@ -76,12 +82,19 @@ const layoutContent = (
   </DashboardLayout>
 );
 
+
+
 export const dashboardRoutes = [
   {
     path: 'dashboard',
     element: CONFIG.auth.skip ? <>{layoutContent}</> : <AuthGuard>{layoutContent}</AuthGuard>,
     children: [
       { element: <IndexPage />, index: true },
+      { path: 'studentprofile', element: <OverviewStudentProfile/>},
+      { path: 'exams', element: <OverviewExamOverview/>},
+      { path: 'course', element: <MyCourse/>},
+      { path: 'course/:cid', element: <CourseDetails /> },
+      { path: 'appeal', element: <OverviewAppealPage />},
       { path: 'ecommerce', element: <OverviewEcommercePage /> },
       { path: 'analytics', element: <OverviewAnalyticsPage /> },
       { path: 'banking', element: <OverviewBankingPage /> },

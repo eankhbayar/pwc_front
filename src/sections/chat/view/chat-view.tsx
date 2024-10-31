@@ -23,15 +23,15 @@ import { ChatMessageInput } from '../chat-message-input';
 import { ChatHeaderDetail } from '../chat-header-detail';
 import { ChatHeaderCompose } from '../chat-header-compose';
 import { useCollapseNav } from '../hooks/use-collapse-nav';
-import Sidebar from './Sidebar'
 import Content from './Content'
 
 import ExamTakeView from './exam-take-view';
-import MyCourse from './my-course-view';
-import StudentProfile from './student-profile-view'
-import ExamOverview from './exams-overview'
-import Appeal from './appeal-view'
+import MyCourse from '../../overview/course/view/my-course-view';
+import StudentProfile from '../../overview/student-profile/view/student-profile-view'
+import ExamOverview from '../../overview/exam-overview/exams-overview'
+import Appeal from '../../overview/appeal/appeal-view'
 import WebCamera from './webcam-view';
+import CourseDetails from '../../overview/course/view/detail/course-page';
 // ----------------------------------------------------------------------
 
 export function ChatView() {
@@ -81,13 +81,15 @@ export function ChatView() {
       maxWidth={false}
       sx={{ display: 'flex', flex: '1 1 auto', flexDirection: 'column' }}
     >
-      <WebCamera />
+      <CourseDetails />
+      {/* <WebCamera />
       <Appeal />
       <ExamOverview /> 
       <StudentProfile /> 
       <MyCourse />
 
-      <ExamTakeView/>
+      <ExamTakeView/> */}
+  
       {/* <Box m={4}>
         <Typography variant="h6">
           Dashboard

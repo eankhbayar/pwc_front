@@ -1,1 +1,1 @@
-export * from './overview-course-view';
+export * from './my-course-view';
